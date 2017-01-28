@@ -153,20 +153,20 @@ n <- result[,2]
 m <- result[,3]
 h <- result[,4]
 matplot(steps, cbind(n, m, h), pch=1, col=c(4,2,6), type="l", main="n, m, h", xlab="Time (ms)", ylab="n, m, h")
-legend("topright", legend=c("n", "m", "h"), pch=1, col=c(4, 2, 6))
+legend("topright", legend=c("n", "m", "h"), pch=1, col=c(4, 2, 6), bty="n")
 grid()
 
 # Plot conductance
 G_K <- G_K_bar * n^4
 G_Na <- G_Na_bar * ((m^3) * h)
 matplot(steps, cbind(G_Na, G_K), pch=1, col=c(4, 2), type="l", main="Ion Channel Conductivity", xlab="Time (ms)", ylab="Conductivity (mmho/cm^2)")
-legend("topright", legend=c("G_K", "G_Na"), pch=1, col=c(4,2))
+legend("topright", legend=c("G_K", "G_Na"), pch=1, col=c(4,2), bty="n")
 grid()
 
 # Plot current
 I_K <- (result[,1] - V_K) * G_K
 I_Na <- (result[,1] - V_Na) * G_Na
 matplot(steps, cbind(I_Na, I_K), pch=1, col=c(4,2), type="l", main="Ion Channel Currents", xlab="Time (ms)", ylab="Current (uA/cm^2)")
-legend("topright", legend=c("I_K", "I_Na"), pch=1, col=c(4,2))
+legend("topright", legend=c("I_K", "I_Na"), pch=1, col=c(4,2), bty="n")
 grid()
 
