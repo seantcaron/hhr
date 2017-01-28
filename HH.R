@@ -49,7 +49,7 @@ if (r == 1) {
 
     bm <- 4.0 * exp(vo/18.0)
     ah <- 0.07 * exp(vo/20.0)
-    bh <- 1.0 / (exp((vo + 30)/10.0)+1.0)
+    bh <- 1.0 / (exp((vo + 30.0)/10.0)+1.0)
 
     # Calculate m, n and h values for this initial membrane polarization
     xn <- an / (an + bn)
@@ -103,7 +103,7 @@ for (i in 1:nmax) {
 
     bm <- 4.0 * exp(vo/18.0)
     ah <- 0.07 * exp(vo/20.0)
-    bh <- 1.0 / (exp((vo + 30)/10.0)+1.0)
+    bh <- 1.0 / (exp((vo + 30.0)/10.0)+1.0)
 
     # Calculate differential m, n and h values at this step
     dxn <- dt * (an * (1.0 - xn) - bn*xn)
@@ -117,7 +117,7 @@ for (i in 1:nmax) {
     # If voltage is not fixed (clamped) then update it
     if (s == 0) {
         # Calculate differential membrane voltage at this step
-        dv <- (-dt/cm) * (G_K_bar*(xn^4)*(v-V_K) + G_Na_bar*(xm^3)*xh*(v-V_Na) + G_L_bar*(v-V_L))
+        dv <- (-dt/cm) * (G_K_bar*(xn^4.0)*(v-V_K) + G_Na_bar*(xm^3.0)*xh*(v-V_Na) + G_L_bar*(v-V_L))
         # Find total new membrane voltage by adding the differential to the existing
         v <- v + dv
     }
@@ -145,28 +145,28 @@ steps <- seq(0, nmax*dt, length=nmax)
 par(mfrow=c(2,2))
 
 # Plot potential
-matplot(steps, result[,1], type = "l", col=4, main="Potential", xlab="Time (ms)", ylab="Membrane voltage (mV)")
+matplot(steps, result[,1], type = "l", col=4, ylim=rev(range(result[,1])), main="Potential", xlab="Time (ms)", ylab="Membrane voltage (mV)")
 grid()
 
 # Plot m, n and h
 n <- result[,2]
 m <- result[,3]
 h <- result[,4]
-matplot(steps, cbind(n, m, h), pch=1, col=c(4,2,6), type="l", main="n, m, h", xlab="Time (ms)", ylab="n, m, h")
-legend("topright", legend=c("n", "m", "h"), pch=1, col=c(4, 2, 6), bty="n")
+matplot(steps, cbind(n, m, h), pch=1, col=c(3,2,4), type="l", main="n, m, h", xlab="Time (ms)", ylab="n, m, h")
+legend("topright", legend=c("n","m","h"), pch=1, col=c(3,2,4), bty="n")
 grid()
 
 # Plot conductance
 G_K <- G_K_bar * n^4
 G_Na <- G_Na_bar * ((m^3) * h)
-matplot(steps, cbind(G_Na, G_K), pch=1, col=c(4, 2), type="l", main="Ion Channel Conductivity", xlab="Time (ms)", ylab="Conductivity (mmho/cm^2)")
-legend("topright", legend=c("G_K", "G_Na"), pch=1, col=c(4,2), bty="n")
+matplot(steps, cbind(G_Na, G_K), pch=1, col=c(4, 3), type="l", main="Ion Channel Conductivity", xlab="Time (ms)", ylab="Conductivity (mmho/cm^2)")
+legend("topright", legend=c("G_K","G_Na"), pch=1, col=c(4,3), bty="n")
 grid()
 
 # Plot current
 I_K <- (result[,1] - V_K) * G_K
 I_Na <- (result[,1] - V_Na) * G_Na
-matplot(steps, cbind(I_Na, I_K), pch=1, col=c(4,2), type="l", main="Ion Channel Currents", xlab="Time (ms)", ylab="Current (uA/cm^2)")
-legend("topright", legend=c("I_K", "I_Na"), pch=1, col=c(4,2), bty="n")
+matplot(steps, cbind(I_Na, I_K), pch=1, col=c(4,3), type="l", main="Ion Channel Currents", xlab="Time (ms)", ylab="Current (uA/cm^2)")
+legend("topright", legend=c("I_K","I_Na"), pch=1, col=c(4,3), bty="n")
 grid()
 
